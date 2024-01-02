@@ -1,7 +1,17 @@
-import hre from "hardhat";
+async function main() {
+  const VotingApp = await hre.ethers.getContractFactory("VotingApp");
+  
+  // Deploying the contract
+  const voting = await VotingApp.deploy();
+  await voting.deployed();
 
-const Voting = await ethers.deployContract("Voting");
+  console.log(`VotingApp deployed to: ${voting.address}`);
+}
 
-await lock.waitForDeployment();
-
-console.log(`Deployed to ${Voting.address}`);
+// Execute the main function
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
