@@ -1,0 +1,51 @@
+1. Install HardHat
+    // run npx hard
+    // if everything goes good , then there will be a hardhat.config file created
+2. Find the scripts folder containing the deploy.js file
+3. HardHat will automatically create Lock.sol file inside the contracts folder
+4. Delete Lock.sol and create new file called Voting.sol
+    // Add code 
+5. https://docs.openzeppelin.com/contracts/4.x/api/utils , explain OpenZeppelin is a library for secure smart contract development
+6. https://ethereum.stackexchange.com/questions/97186/what-is-the-reason-behind-writing-using-counters-for-counters-counters-when-us
+7. npm install @openzeppelin/contracts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////
+// We require the Hardhat Runtime Environment explicitly here. This is optional
+// but useful for running the script in a standalone fashion through `node <script>`.
+//
+// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
+// will compile your contracts, add the Hardhat Runtime Environment's members to the
+// global scope, and execute the script.
+import hre from "hardhat";
+const lock = await ethers.deployContract("Lock", [unlockTime], {
+  value: lockedAmount,
+});
+
+await lock.waitForDeployment();
+
+console.log(
+  `Lock with ${ethers.formatEther(
+    lockedAmount
+  )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
+);
