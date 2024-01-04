@@ -8,7 +8,6 @@ async function main() {
   console.log(`VotingApp deployed to: ${voting.address}`);
 }
 
-// Execute the main function
 main()
   .then(() => process.exit(0))
   .catch((error) => {

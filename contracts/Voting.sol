@@ -12,9 +12,9 @@ contract Voting {
         bool isActive;
     }
 
-    Poll[] public polls;
-    address public owner;
-    mapping(address => mapping(uint256 => bool)) public hasVoted;
+    Poll[] public polls; // Array of Polls
+    address public owner; // Address of the owner
+    mapping(address => mapping(uint256 => bool)) public hasVoted; // A Key-Value pair of user addresses and Whether they have voted
 
     constructor() {
         owner = msg.sender;

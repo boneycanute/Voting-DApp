@@ -19,7 +19,6 @@ function App() {
         <Route path='/tasks/create' element={<CreatePoll/>}/>
         <Route path='/tasks/show' element={<SeePolls/>}/>
         <Route path='/tasks/results' element={<SeeResults/>}/>
-        <Route path='/task/show/:id' element={<PollDetails/>}/>
       </Routes>
     </ProviderContext.Provider>
    
