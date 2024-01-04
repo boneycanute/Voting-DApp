@@ -1,12 +1,14 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ProviderContext } from '../App';
 
 function SelectTask() {
     const nav = useNavigate();
-
+    const provider = useContext(ProviderContext);
+    // console.log(provider);
   return (
     <>
-    <h1>Welcome User,</h1>
+    <p>Welcome <u>{provider.account}</u></p>
     <p>What would you like to do today ?</p>
     <div className='MainContainer HorzontalView'>
     

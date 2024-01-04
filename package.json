@@ -10,25 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.1",
-    "axios": "^1.6.3",
-    "dotenv": "^16.3.1",
-    "ipfs-http-client": "^60.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1",
-    "web3modal": "^1.9.12"
-  },
-  "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "axios": "^1.6.3",
+    "dotenv": "^16.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1"
+  },
+  "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.55.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
     "ethers": "^5.7.2",
     "hardhat": "^2.19.4",
     "vite": "^5.0.8"

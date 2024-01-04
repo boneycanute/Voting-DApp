@@ -6,17 +6,23 @@ import CreatePoll from './Components/CreatePoll'
 import SeePolls from './Components/SeePolls'
 import SeeResults from './Components/SeeResults'
 import PollDetails from './Components/PollDetails'
+import { createContext } from 'react';
+
+export const ProviderContext = createContext(null);
 
 function App() {
   return (
-    <Routes>
-      <Route path='/' element={<Login/>}/>
-      <Route path='/tasks' element={<SelectTask/>}/>
-      <Route path='/tasks/create' element={<CreatePoll/>}/>
-      <Route path='/tasks/show' element={<SeePolls/>}/>
-      <Route path='/tasks/results' element={<SeeResults/>}/>
-      <Route path='/task/show/:id' element={<PollDetails/>}/>
-    </Routes>
+    <ProviderContext.Provider value={{provider : null , account : null }}>
+      <Routes>
+        <Route path='/' element={<Login/>}/>
+        <Route path='/tasks' element={<SelectTask/>}/>
+        <Route path='/tasks/create' element={<CreatePoll/>}/>
+        <Route path='/tasks/show' element={<SeePolls/>}/>
+        <Route path='/tasks/results' element={<SeeResults/>}/>
+        <Route path='/task/show/:id' element={<PollDetails/>}/>
+      </Routes>
+    </ProviderContext.Provider>
+   
    
   )
 }

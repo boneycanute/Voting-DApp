@@ -1,5 +1,5 @@
 async function main() {
-  const VotingApp = await hre.ethers.getContractFactory("VotingApp");
+  const VotingApp = await hre.ethers.getContractFactory("Voting");
   
   // Deploying the contract
   const voting = await VotingApp.deploy();

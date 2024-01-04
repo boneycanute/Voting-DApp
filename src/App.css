@@ -63,3 +63,22 @@ label
   align-items: center;
   flex-wrap: wrap;
 }
+
+.table-container {
+  max-height: 300px; 
+  overflow-y: auto; 
+  border-radius: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center; 
+  border-bottom: 1px solid #ddd;
+}

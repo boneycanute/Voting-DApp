@@ -1,14 +1,13 @@
-require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-ethers");
 require("dotenv").config();
 
-const {PRIVATE_KEY} = process.env;
+const {PRIVATE_KEY , API_URL} = process.env;
 module.exports = {
   solidity: "0.8.19",
   networks: {
     hardhat: {},
     sepolia: {
-      url: "https://sepolia.infura.io/v3/02bfd2c7b3f9488dbe57e2aca221a1bf",
+      url: API_URL,
       accounts: [`0x${PRIVATE_KEY}`],
     },
   },

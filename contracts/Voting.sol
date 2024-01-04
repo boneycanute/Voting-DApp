@@ -1,74 +1,102 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract VotingApp {
+contract Voting {
     struct Poll {
         string title;
         string description;
-        uint256 endTime;
-        bool ended;
-        uint256 yesVotes;
-        uint256 noVotes;
-        mapping(address => bool) hasVoted;
+        uint256 yesCount;
+        uint256 noCount;
+        uint256 votingStart;
+        uint256 votingEnd;
+        bool isActive;
     }
 
-    mapping(bytes32 => Poll) public polls;
-    bytes32[] public endedPolls;
+    Poll[] public polls;
+    address public owner;
+    mapping(address => mapping(uint256 => bool)) public hasVoted;
 
-    event PollCreated(
-        bytes32 pollId,
-        string title,
-        string description,
-        uint256 endTime
-    );
-    event Voted(bytes32 pollId, address voter, bool vote);
-    event PollEnded(bytes32 pollId, uint256 yesVotes, uint256 noVotes);
+    constructor() {
+        owner = msg.sender;
+    }
 
-    function createPoll(
-        bytes32 pollId,
-        string memory title,
-        string memory description,
-        uint256 durationInSeconds
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not Owner");
+        _;
+    }
+
+    function addPoll(
+        string memory _title,
+        string memory _description,
+        uint256 _durationInMinutes
     ) public {
-        require(polls[pollId].endTime == 0, "Poll ID already exists");
+        uint256 _votingStart = block.timestamp;
+        uint256 _votingEnd = _votingStart + (_durationInMinutes * 1 minutes);
 
-        uint256 endTime = block.timestamp + durationInSeconds;
-        polls[pollId].title = title;
-        polls[pollId].description = description;
-        polls[pollId].endTime = endTime;
-        polls[pollId].ended = false;
-        polls[pollId].yesVotes = 0;
-        polls[pollId].noVotes = 0;
-
-        emit PollCreated(pollId, title, description, endTime);
+        polls.push(
+            Poll({
+                title: _title,
+                description: _description,
+                yesCount: 0,
+                noCount: 0,
+                votingStart: _votingStart,
+                votingEnd: _votingEnd,
+                isActive: true
+            })
+        );
     }
 
-    function vote(bytes32 pollId, bool voteOption) public {
-        Poll storage poll = polls[pollId];
-        require(!poll.ended, "Poll has ended");
-        require(poll.endTime > block.timestamp, "Poll has expired");
-        require(!poll.hasVoted[msg.sender], "Already voted");
+    function vote(uint256 _pollIndex, bool _vote) public {
+        require(_pollIndex < polls.length, "Invalid poll index");
+        require(polls[_pollIndex].isActive, "Voting ended");
+        require(!hasVoted[msg.sender][_pollIndex], "Already voted");
 
-        if (voteOption) {
-            poll.yesVotes++;
+        if (_vote) {
+            polls[_pollIndex].yesCount++;
         } else {
-            poll.noVotes++;
+            polls[_pollIndex].noCount++;
         }
-        poll.hasVoted[msg.sender] = true;
-        emit Voted(pollId, msg.sender, voteOption);
+
+        hasVoted[msg.sender][_pollIndex] = true;
     }
 
-    function endPoll(bytes32 pollId) public {
-        Poll storage poll = polls[pollId];
-        require(!poll.ended, "Poll already ended");
-        require(poll.endTime <= block.timestamp, "Poll has not ended yet");
+    function getAllRunningPolls() public view returns (Poll[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < polls.length; i++) {
+            if (polls[i].isActive && polls[i].votingEnd > block.timestamp) {
+                count++;
+            }
+        }
 
-        poll.ended = true;
-        endedPolls.push(pollId);
-        emit PollEnded(pollId, poll.yesVotes, poll.noVotes);
+        Poll[] memory runningPolls = new Poll[](count);
+        count = 0;
+        for (uint256 i = 0; i < polls.length; i++) {
+            if (polls[i].isActive && polls[i].votingEnd > block.timestamp) {
+                runningPolls[count] = polls[i];
+                count++;
+            }
+        }
+
+        return runningPolls;
     }
 
-    function getEndedPolls() public view returns (bytes32[] memory) {
+    function getAllEndedPolls() public view returns (Poll[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < polls.length; i++) {
+            if (polls[i].isActive && polls[i].votingEnd <= block.timestamp) {
+                count++;
+            }
+        }
+
+        Poll[] memory endedPolls = new Poll[](count);
+        count = 0;
+        for (uint256 i = 0; i < polls.length; i++) {
+            if (polls[i].isActive && polls[i].votingEnd <= block.timestamp) {
+                endedPolls[count] = polls[i];
+                count++;
+            }
+        }
+
         return endedPolls;
     }
 }
